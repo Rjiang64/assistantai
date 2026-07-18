@@ -1,0 +1,607 @@
+/* AssistantAI — custom styles on top of Bootstrap.
+   Bootstrap itself is imported in src/main.jsx.
+
+   Single source of truth for the color system — every rule below
+   references one of the CSS variables in :root. Bootstrap's semantic
+   colors (success/danger/warning/info) are intentionally left alone. */
+
+:root {
+  /* ---------- Brand (Light Blue -> Medium Blue -> Dark Blue) ---------- */
+  --brand-50: #ebf5fb;
+  --brand-100: #d6eaf8;
+  --brand-500: #2199ea;
+  --brand-600: #137dc5;
+  --brand-700: #0f5f96;
+  --brand-rgb: 33, 153, 234;
+  --brand-action-rgb: 19, 125, 197;
+
+  /* ---------- Text hierarchy ---------- */
+  --text-heading: #000000;
+  --text-primary: #1a1a1a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  /* ---------- Surfaces ---------- */
+  --background: #f7fafc;
+  --surface: #ffffff;
+  --surface-subtle: #f1f5f9;
+
+  /* ---------- Borders ---------- */
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   Bootstrap overrides
+   ============================================================ */
+
+.btn-primary {
+  background-color: var(--brand-600);
+  border-color: var(--brand-600);
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--brand-700) !important;
+  border-color: var(--brand-700) !important;
+}
+.btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(var(--brand-action-rgb), 0.25);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--brand-500);
+  box-shadow: 0 0 0 0.2rem rgba(var(--brand-rgb), 0.18);
+}
+
+a {
+  color: var(--brand-600);
+}
+a:hover {
+  color: var(--brand-700);
+}
+
+.progress-bar {
+  background-color: var(--brand-600);
+}
+
+/* ============================================================
+   App shell / navbar / footer
+   ============================================================ */
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.app-shell main {
+  flex: 1;
+}
+
+.app-navbar {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+}
+.app-navbar .navbar-brand {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+.app-navbar .navbar-brand:hover {
+  color: var(--text-heading);
+}
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+  color: var(--surface);
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: -0.02em;
+  box-shadow: 0 1px 3px rgba(var(--brand-action-rgb), 0.3);
+}
+.app-navbar .user-menu {
+  position: relative;
+  padding-left: 1rem;
+}
+.app-navbar .user-menu::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background-color: var(--border);
+}
+.app-navbar .user-email {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  max-width: 16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-width: 575.98px) {
+  .app-navbar .user-email {
+    display: none;
+  }
+  .brand-name {
+    display: none;
+  }
+}
+
+.app-footer {
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 0.75rem 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   Auth pages — split-screen layout (AuthLayout component)
+   ============================================================ */
+
+.auth-split {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--surface);
+}
+
+.auth-image-panel {
+  flex: 0 0 65%;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #0b1f3a, #0f2a4a 55%, var(--brand-700));
+  color: #fff;
+}
+.auth-image-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 14, 32, 0.15);
+}
+.auth-image-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem 4rem;
+}
+.auth-image-brand {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #eaf4fd;
+  font-weight: 600;
+  font-size: 1.4rem;
+  letter-spacing: -0.01em;
+  margin-top: 2rem;
+}
+.auth-image-brand .brand-mark {
+  width: 40px;
+  height: 40px;
+  font-size: 1.15rem;
+  border-radius: 9px;
+}
+.auth-image-hero {
+  max-width: 38rem;
+}
+.auth-image-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: #fff;
+  margin: 0 0 1.25rem 0;
+}
+.auth-image-description {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+.auth-image-footer {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-form-panel {
+  flex: 0 0 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--surface);
+  padding: 2rem;
+}
+.auth-form-inner {
+  width: 100%;
+  max-width: 24rem;
+}
+.auth-form-brand {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+.auth-form-brand:hover {
+  color: var(--text-heading);
+  text-decoration: none;
+}
+.auth-form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-heading);
+  margin: 0 0 0.4rem 0;
+}
+.auth-form-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+.auth-tabs {
+  display: flex;
+  gap: 0.25rem;
+  background-color: var(--surface-subtle);
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0 1.25rem;
+}
+.auth-tab {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.4rem;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: background-color 0.15s, color 0.15s;
+}
+.auth-tab:hover {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.auth-tab.active {
+  background-color: var(--surface);
+  color: var(--text-heading);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.auth-form-inner .form-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+.auth-form-inner .form-control {
+  padding: 0.625rem 0.85rem;
+  font-size: 0.95rem;
+  background-color: var(--surface-subtle);
+  border-color: var(--border);
+}
+.auth-form-inner .form-control:focus {
+  background-color: var(--surface);
+}
+.auth-form-inner .btn-primary {
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+@media (max-width: 991.98px) {
+  .auth-image-panel {
+    display: none;
+  }
+  .auth-form-panel {
+    flex: 1 1 100%;
+  }
+  .auth-form-brand {
+    display: inline-flex;
+  }
+}
+
+/* ============================================================
+   Dashboard cards
+   ============================================================ */
+
+.dashboard-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+/* ============================================================
+   Mic button (Create Plan + Dashboard quick capture)
+   ============================================================ */
+
+.mic-panel {
+  padding: 1rem 0;
+}
+.mic-button {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(var(--brand-action-rgb), 0.35);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.mic-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(var(--brand-action-rgb), 0.4);
+}
+.mic-button.listening {
+  animation: mic-pulse 1.4s ease-out infinite;
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  box-shadow: 0 4px 16px rgba(185, 28, 28, 0.4);
+}
+.mic-button-sm {
+  width: 56px;
+  height: 56px;
+}
+@keyframes mic-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 18px rgba(185, 28, 28, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(185, 28, 28, 0);
+  }
+}
+.mic-status {
+  color: var(--text-secondary);
+}
+
+.analyzing-state {
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================
+   Timeline (compact preview on Dashboard, full on Schedule Detail)
+   ============================================================ */
+
+.timeline-compact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--surface-subtle);
+  font-size: 0.875rem;
+}
+.timeline-compact-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.timeline-compact-time {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 7.5rem;
+}
+.timeline-compact-title {
+  flex: 1 1 auto;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.timeline-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+}
+.timeline-list {
+  position: relative;
+}
+.timeline-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--surface-subtle);
+}
+.timeline-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.timeline-row:first-child {
+  padding-top: 0;
+}
+.timeline-row-time {
+  flex: 0 0 8.5rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.15rem;
+}
+.timeline-row-body {
+  flex: 1 1 auto;
+}
+.timeline-row-title {
+  font-weight: 600;
+  color: var(--text-heading);
+}
+.timeline-row-done {
+  opacity: 0.65;
+}
+.timeline-row-actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 0.4rem;
+}
+.timeline-row-event .timeline-row-title {
+  color: var(--brand-700);
+}
+
+/* ============================================================
+   Explanation card
+   ============================================================ */
+
+.explanation-card {
+  background-color: var(--brand-50);
+  border: 1px solid var(--brand-100);
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  color: var(--text-primary);
+  font-size: 0.925rem;
+}
+
+/* ============================================================
+   Upcoming tasks (Dashboard)
+   ============================================================ */
+
+.upcoming-task-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--surface-subtle);
+}
+.upcoming-task-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.upcoming-task-title {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.task-complete-btn {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  background-color: transparent;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.task-complete-btn:hover {
+  border-color: var(--brand-600);
+  background-color: var(--brand-50);
+}
+
+/* ============================================================
+   Badges — priority + block kind/category
+   Priority badges intentionally NOT brand-tinted (communicate state).
+   ============================================================ */
+
+.priority-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.priority-high {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+.priority-medium {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+.priority-low {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.badge-kind {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  background-color: var(--surface-subtle);
+  color: var(--text-secondary);
+}
+.badge-kind-event {
+  background-color: var(--brand-50);
+  color: var(--brand-700);
+}
+
+/* ============================================================
+   Lightweight custom modal (BlockEditModal) — Bootstrap classes,
+   no Bootstrap JS bundle required.
+   ============================================================ */
+
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1055;
+  padding: 1rem;
+}
+.modal-dialog-custom {
+  width: 100%;
+  max-width: 480px;
+}
+.modal-dialog-custom .modal-content {
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+}
+
+/* ============================================================
+   Misc
+   ============================================================ */
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}

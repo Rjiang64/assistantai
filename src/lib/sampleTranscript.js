@@ -1,0 +1,1 @@
+export const SAMPLE_TRANSCRIPT = `I have class from 9 to 11. I need to finish my SQL assignment which should take about two hours. I have work from 3 until 11. I should go to the gym before work. I need groceries. I should call my mom. I need to study Python for an hour.`

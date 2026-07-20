@@ -351,10 +351,11 @@ a:hover {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(16, 12, 38, 0.68) 0%,
-    rgba(16, 12, 38, 0.32) 38%,
-    rgba(16, 12, 38, 0.42) 60%,
-    rgba(16, 12, 38, 0.78) 100%
+    rgba(10, 8, 24, 0.72) 0%,
+    rgba(10, 8, 24, 0.52) 30%,
+    rgba(10, 8, 24, 0.58) 55%,
+    rgba(10, 8, 24, 0.52) 68%,
+    rgba(10, 8, 24, 0.82) 100%
   );
 }
 .auth-image-content {
@@ -377,6 +378,7 @@ a:hover {
   font-size: 1.4rem;
   letter-spacing: -0.01em;
   margin-top: 2rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 .auth-image-brand .brand-mark {
   width: 40px;
@@ -386,6 +388,11 @@ a:hover {
 }
 .auth-image-hero {
   max-width: 38rem;
+  padding: 1.75rem 2rem;
+  border-radius: var(--radius-lg);
+  background: rgba(10, 8, 24, 0.42);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
 .auth-image-title {
   font-size: 2.75rem;
@@ -394,16 +401,19 @@ a:hover {
   line-height: 1.1;
   color: #fff;
   margin: 0 0 1.25rem 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
 }
 .auth-image-description {
   font-size: 1.05rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.94);
   margin: 0;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
 }
 .auth-image-footer {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
 }
 
 .auth-form-panel {

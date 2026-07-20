@@ -384,23 +384,6 @@ a:hover {
   font-size: 1.15rem;
   border-radius: 10px;
 }
-.auth-image-hero {
-  max-width: 38rem;
-}
-.auth-image-title {
-  font-size: 2.75rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  color: #fff;
-  margin: 0 0 1.25rem 0;
-}
-.auth-image-description {
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.92);
-  margin: 0;
-}
 .auth-image-footer {
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.65);
@@ -414,9 +397,83 @@ a:hover {
   background-color: var(--surface);
   padding: 2rem;
 }
+.auth-panel-stage {
+  position: relative;
+  width: 100%;
+  max-width: 24rem;
+}
 .auth-form-inner {
   width: 100%;
   max-width: 24rem;
+}
+.auth-form-inner-enter {
+  animation: auth-form-in 0.45s ease both;
+}
+@keyframes auth-form-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-intro {
+  transition: transform 0.38s ease, opacity 0.38s ease;
+  transform: translateY(0);
+  opacity: 1;
+}
+.auth-intro-leaving {
+  transform: translateY(-36px);
+  opacity: 0;
+  pointer-events: none;
+}
+.auth-intro-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--text-heading);
+  margin: 0 0 1rem 0;
+}
+.auth-intro-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0 0 2.25rem 0;
+}
+.auth-reveal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(var(--primary-rgb), 0.35);
+  cursor: pointer;
+  animation: auth-reveal-pulse 1.8s ease-in-out infinite;
+}
+.auth-reveal-btn:hover {
+  filter: brightness(1.05);
+}
+.auth-reveal-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+@keyframes auth-reveal-pulse {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(var(--primary-rgb), 0.35);
+  }
+  50% {
+    transform: translateY(7px);
+    box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.22);
+  }
 }
 .auth-form-brand {
   display: none;

@@ -3,32 +3,66 @@
 
    Single source of truth for the color system — every rule below
    references one of the CSS variables in :root. Bootstrap's semantic
-   colors (success/danger/warning/info) are intentionally left alone. */
+   colors (success/warning/info) are intentionally left alone; only
+   "danger" is remapped to the brand red so destructive actions read
+   as on-brand rather than a generic Bootstrap red. */
 
 :root {
-  /* ---------- Brand (Light Blue -> Medium Blue -> Dark Blue) ---------- */
-  --brand-50: #ebf5fb;
-  --brand-100: #d6eaf8;
-  --brand-500: #2199ea;
-  --brand-600: #137dc5;
-  --brand-700: #0f5f96;
-  --brand-rgb: 33, 153, 234;
-  --brand-action-rgb: 19, 125, 197;
+  /* ---------- Brand palette ---------- */
+  --navy: #003049;
+  --navy-dark: #001f30;
+  --navy-light: #12466a;
+  --red: #d62828;
+  --red-dark: #b31f1f;
+  --orange: #f77f00;
+  --orange-dark: #d66d00;
+  --gold: #fcbf49;
+  --gold-dark: #e8a92b;
+  --cream: #eae2b7;
+
+  --navy-rgb: 0, 48, 73;
+  --red-rgb: 214, 40, 40;
+  --orange-rgb: 247, 127, 0;
+  --gold-rgb: 252, 191, 73;
+  --cream-rgb: 234, 226, 183;
 
   /* ---------- Text hierarchy ---------- */
-  --text-heading: #000000;
-  --text-primary: #1a1a1a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-heading: var(--navy);
+  --text-primary: #16232c;
+  --text-secondary: #52697a;
+  --text-muted: #93a5b0;
 
   /* ---------- Surfaces ---------- */
-  --background: #f7fafc;
+  /* Kept light and neutral (not literal cream) so the app reads as a
+     calm, professional SaaS tool rather than a colorful dashboard.
+     Cream is reserved for small, deliberate accents (see below). */
+  --background: #f6f7f8;
   --surface: #ffffff;
-  --surface-subtle: #f1f5f9;
+  --surface-subtle: #f1f3f5;
+  --surface-cream: #faf6e8;
 
   /* ---------- Borders ---------- */
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
+  --border: #e1e5e9;
+  --border-strong: #c7ced4;
+}
+
+/* ---------------------------------------------------------------
+   Bootstrap CSS-variable remap.
+   Bootstrap 5.3's utility classes (.text-primary, .border-primary,
+   focus rings, etc.) read from these root tokens, so remapping them
+   here recolors spinners/utilities without touching component JSX.
+   Component-level classes (.btn-primary, .btn-outline-*) hardcode
+   their own colors in Bootstrap's compiled CSS and are overridden
+   explicitly further down.
+   --------------------------------------------------------------- */
+:root {
+  --bs-primary: var(--navy);
+  --bs-primary-rgb: var(--navy-rgb);
+  --bs-link-color: var(--navy);
+  --bs-link-color-rgb: var(--navy-rgb);
+  --bs-link-hover-color: var(--navy-dark);
+  --bs-danger: var(--red);
+  --bs-danger-rgb: var(--red-rgb);
 }
 
 html,
@@ -49,34 +83,97 @@ body {
    ============================================================ */
 
 .btn-primary {
-  background-color: var(--brand-600);
-  border-color: var(--brand-600);
+  background-color: var(--navy);
+  border-color: var(--navy);
 }
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
-  background-color: var(--brand-700) !important;
-  border-color: var(--brand-700) !important;
+  background-color: var(--navy-dark) !important;
+  border-color: var(--navy-dark) !important;
 }
 .btn-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(var(--brand-action-rgb), 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(var(--navy-rgb), 0.25);
+}
+.btn-primary:disabled {
+  background-color: var(--navy);
+  border-color: var(--navy);
+  opacity: 0.6;
+}
+
+.btn-outline-primary {
+  color: var(--navy);
+  border-color: var(--navy);
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+  background-color: var(--navy) !important;
+  border-color: var(--navy) !important;
+  color: #fff !important;
+}
+.btn-outline-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(var(--navy-rgb), 0.2);
+}
+
+.btn-outline-danger {
+  color: var(--red);
+  border-color: var(--red);
+}
+.btn-outline-danger:hover,
+.btn-outline-danger:focus,
+.btn-outline-danger:active {
+  background-color: var(--red) !important;
+  border-color: var(--red) !important;
+  color: #fff !important;
+}
+.btn-outline-danger:focus {
+  box-shadow: 0 0 0 0.2rem rgba(var(--red-rgb), 0.2);
+}
+
+.btn-outline-secondary {
+  color: var(--text-secondary);
+  border-color: var(--border-strong);
+}
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active {
+  background-color: var(--navy) !important;
+  border-color: var(--navy) !important;
+  color: #fff !important;
+}
+
+.btn-link {
+  color: var(--navy);
+}
+.btn-link:hover {
+  color: var(--navy-dark);
 }
 
 .form-control:focus,
 .form-select:focus {
-  border-color: var(--brand-500);
-  box-shadow: 0 0 0 0.2rem rgba(var(--brand-rgb), 0.18);
+  border-color: var(--navy-light);
+  box-shadow: 0 0 0 0.2rem rgba(var(--navy-rgb), 0.15);
 }
 
 a {
-  color: var(--brand-600);
+  color: var(--navy);
 }
 a:hover {
-  color: var(--brand-700);
+  color: var(--navy-dark);
 }
 
+.progress {
+  background-color: var(--surface-subtle);
+}
 .progress-bar {
-  background-color: var(--brand-600);
+  background-color: var(--gold);
+}
+
+.alert-danger {
+  --bs-alert-color: #7a1616;
+  --bs-alert-bg: #fbe9e9;
+  --bs-alert-border-color: #f3c6c6;
 }
 
 /* ============================================================
@@ -112,13 +209,30 @@ a:hover {
   justify-content: center;
   width: 28px;
   height: 28px;
-  background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+  background: linear-gradient(135deg, var(--navy-light), var(--navy));
   color: var(--surface);
   border-radius: 7px;
   font-weight: 700;
   font-size: 0.9rem;
   letter-spacing: -0.02em;
-  box-shadow: 0 1px 3px rgba(var(--brand-action-rgb), 0.3);
+  box-shadow: 0 1px 3px rgba(var(--navy-rgb), 0.3);
+}
+.nav-link-app {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.4rem 0.1rem;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.nav-link-app:hover {
+  color: var(--text-heading);
+  text-decoration: none;
+}
+.nav-link-app.active {
+  color: var(--navy);
+  border-bottom-color: var(--gold);
 }
 .app-navbar .user-menu {
   position: relative;
@@ -175,7 +289,7 @@ a:hover {
   flex: 0 0 65%;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(160deg, #0b1f3a, #0f2a4a 55%, var(--brand-700));
+  background: linear-gradient(160deg, var(--navy-dark), var(--navy) 55%, var(--navy-light));
   color: #fff;
 }
 .auth-image-overlay {
@@ -198,7 +312,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  color: #eaf4fd;
+  color: #eaf0f5;
   font-weight: 600;
   font-size: 1.4rem;
   letter-spacing: -0.01em;
@@ -339,13 +453,14 @@ a:hover {
 .dashboard-card {
   background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
   padding: 1.25rem;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 1px 2px rgba(var(--navy-rgb), 0.05);
 }
 
 /* ============================================================
    Mic button (Create Plan + Dashboard quick capture)
+   States: idle = navy, listening = orange pulse.
    ============================================================ */
 
 .mic-panel {
@@ -359,20 +474,20 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+  background: linear-gradient(135deg, var(--navy-light), var(--navy));
   color: #fff;
-  box-shadow: 0 4px 16px rgba(var(--brand-action-rgb), 0.35);
+  box-shadow: 0 4px 16px rgba(var(--navy-rgb), 0.35);
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
 }
 .mic-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(var(--brand-action-rgb), 0.4);
+  box-shadow: 0 6px 20px rgba(var(--navy-rgb), 0.4);
 }
 .mic-button.listening {
   animation: mic-pulse 1.4s ease-out infinite;
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
-  box-shadow: 0 4px 16px rgba(185, 28, 28, 0.4);
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+  box-shadow: 0 4px 16px rgba(var(--orange-rgb), 0.4);
 }
 .mic-button-sm {
   width: 56px;
@@ -380,13 +495,13 @@ a:hover {
 }
 @keyframes mic-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.45);
+    box-shadow: 0 0 0 0 rgba(var(--orange-rgb), 0.45);
   }
   70% {
-    box-shadow: 0 0 0 18px rgba(185, 28, 28, 0);
+    box-shadow: 0 0 0 18px rgba(var(--orange-rgb), 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(185, 28, 28, 0);
+    box-shadow: 0 0 0 0 rgba(var(--orange-rgb), 0);
   }
 }
 .mic-status {
@@ -400,9 +515,14 @@ a:hover {
   align-items: center;
   justify-content: center;
 }
+.analyzing-state .spinner-border {
+  color: var(--gold-dark);
+}
 
 /* ============================================================
    Timeline (compact preview on Dashboard, full on Schedule Detail)
+   Row states: current = orange, completed = muted green,
+   missed = red, selected = gold outline, upcoming = default.
    ============================================================ */
 
 .timeline-compact-row {
@@ -432,7 +552,7 @@ a:hover {
 .timeline-card {
   background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
   padding: 1.25rem;
 }
 .timeline-list {
@@ -442,15 +562,15 @@ a:hover {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 0.9rem 0;
+  padding: 0.9rem 0.75rem;
+  margin: 0 -0.75rem;
   border-bottom: 1px solid var(--surface-subtle);
+  border-left: 3px solid transparent;
+  border-radius: 0.35rem;
+  transition: background-color 0.15s, border-color 0.15s;
 }
 .timeline-row:last-child {
   border-bottom: none;
-  padding-bottom: 0;
-}
-.timeline-row:first-child {
-  padding-top: 0;
 }
 .timeline-row-time {
   flex: 0 0 8.5rem;
@@ -467,7 +587,7 @@ a:hover {
   color: var(--text-heading);
 }
 .timeline-row-done {
-  opacity: 0.65;
+  opacity: 0.7;
 }
 .timeline-row-actions {
   flex: 0 0 auto;
@@ -475,17 +595,50 @@ a:hover {
   gap: 0.4rem;
 }
 .timeline-row-event .timeline-row-title {
-  color: var(--brand-700);
+  color: var(--navy-light);
+}
+
+/* Currently-happening block */
+.timeline-row-current {
+  border-left-color: var(--orange);
+  background-color: rgba(var(--orange-rgb), 0.06);
+}
+.timeline-row-current .timeline-row-time {
+  color: var(--orange-dark);
+  font-weight: 600;
+}
+
+/* Completed block — muted green, keeps Bootstrap's success hue */
+.timeline-row-completed {
+  border-left-color: #2f9e5c;
+  background-color: rgba(47, 158, 92, 0.06);
+}
+
+/* Past due, not completed */
+.timeline-row-missed {
+  border-left-color: var(--red);
+  background-color: rgba(var(--red-rgb), 0.05);
+}
+.timeline-row-missed .timeline-row-time {
+  color: var(--red);
+}
+
+/* Currently open in the edit modal */
+.timeline-row-selected {
+  border-left-color: var(--gold-dark);
+  background-color: rgba(var(--gold-rgb), 0.12);
+  box-shadow: inset 0 0 0 1px rgba(var(--gold-rgb), 0.5);
 }
 
 /* ============================================================
-   Explanation card
+   Explanation card — AI reasoning gets the gold "AI suggestion"
+   highlight called for in the brand spec.
    ============================================================ */
 
 .explanation-card {
-  background-color: var(--brand-50);
-  border: 1px solid var(--brand-100);
-  border-radius: 0.5rem;
+  background-color: rgba(var(--gold-rgb), 0.16);
+  border: 1px solid rgba(var(--gold-rgb), 0.55);
+  border-radius: 0.6rem;
   padding: 1rem 1.25rem;
   color: var(--text-primary);
   font-size: 0.925rem;
@@ -521,13 +674,14 @@ a:hover {
   transition: border-color 0.15s, background-color 0.15s;
 }
 .task-complete-btn:hover {
-  border-color: var(--brand-600);
-  background-color: var(--brand-50);
+  border-color: var(--navy);
+  background-color: rgba(var(--navy-rgb), 0.06);
 }
 
 /* ============================================================
    Badges — priority + block kind/category
-   Priority badges intentionally NOT brand-tinted (communicate state).
+   Priority badges intentionally NOT brand-tinted (communicate state,
+   reuse Bootstrap's semantic danger/warning/success hues).
    ============================================================ */
 
 .priority-badge {
@@ -540,8 +694,8 @@ a:hover {
   letter-spacing: 0.03em;
 }
 .priority-high {
-  background-color: #fee2e2;
-  color: #991b1b;
+  background-color: #fbe4e4;
+  color: #8a1f1f;
 }
 .priority-medium {
   background-color: #fef3c7;
@@ -563,8 +717,8 @@ a:hover {
   color: var(--text-secondary);
 }
 .badge-kind-event {
-  background-color: var(--brand-50);
-  color: var(--brand-700);
+  background-color: rgba(var(--navy-rgb), 0.08);
+  color: var(--navy);
 }
 
 /* ============================================================
@@ -575,7 +729,7 @@ a:hover {
 .modal-backdrop-custom {
   position: fixed;
   inset: 0;
-  background-color: rgba(15, 23, 42, 0.5);
+  background-color: rgba(var(--navy-rgb), 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -587,8 +741,87 @@ a:hover {
   max-width: 480px;
 }
 .modal-dialog-custom .modal-content {
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
   border: 1px solid var(--border);
+}
+
+/* ============================================================
+   Calendar page — month grid of past/current daily plans.
+   ============================================================ */
+
+.calendar-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  padding: 1.25rem;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.4rem;
+}
+
+.calendar-weekday {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  padding-bottom: 0.4rem;
+}
+
+.calendar-day {
+  aspect-ratio: 1 / 1;
+  min-height: 4.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  background-color: var(--surface-subtle);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: default;
+  transition: border-color 0.15s, background-color 0.15s, transform 0.1s;
+}
+.calendar-day-number {
+  font-weight: 600;
+}
+.calendar-day-outside {
+  opacity: 0.4;
+}
+.calendar-day-today {
+  border-color: var(--gold-dark);
+  background-color: rgba(var(--gold-rgb), 0.18);
+}
+.calendar-day-today .calendar-day-number {
+  color: var(--navy);
+}
+.calendar-day-has-plan {
+  cursor: pointer;
+  background-color: var(--surface);
+  border-color: var(--border-strong);
+}
+.calendar-day-has-plan:hover {
+  border-color: var(--navy);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(var(--navy-rgb), 0.12);
+}
+.calendar-day-has-plan.calendar-day-today {
+  background-color: rgba(var(--gold-rgb), 0.22);
+  border-color: var(--gold-dark);
+}
+.calendar-day-count {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.calendar-day:disabled {
+  opacity: 0.55;
 }
 
 /* ============================================================

@@ -9,7 +9,13 @@ import {
   updateCalendarEvent,
   deleteCalendarEvent,
 } from '../lib/api.js'
-import { formatTimeRange, formatDurationMinutes, formatPlanDateLong, combineDateAndTime } from '../lib/time.js'
+import {
+  formatTimeRange,
+  formatDurationMinutes,
+  formatPlanDateLong,
+  combineDateAndTime,
+  nowForScheduleComparison,
+} from '../lib/time.js'
 import BlockEditModal from '../components/BlockEditModal.jsx'
 
 export default function ScheduleDetail() {
@@ -162,10 +168,29 @@ export default function ScheduleDetail() {
           <p className="text-secondary small mb-0">No blocks scheduled yet.</p>
         ) : (
           <ul className="timeline-list list-unstyled mb-0">
-            {timeline.map((block) => (
+            {timeline.map((block) => {
+              const now = nowForScheduleComparison()
+              const start = new Date(block.start)
+              const end = new Date(block.end)
+              const isCompleted = block.status === 'completed'
+              const isSelected = editingBlock?.kind === block.kind && editingBlock?.block?.id === block.id
+              const isCurrent = !isCompleted && now >= start && now < end
+              const isMissed = !isCompleted && block.kind === 'task' && now >= end
+
+              const stateClass = isSelected
+                ? 'timeline-row-selected'
+                : isCompleted
+                  ? 'timeline-row-completed'
+                  : isMissed
+                    ? 'timeline-row-missed'
+                    : isCurrent
+                      ? 'timeline-row-current'
+                      : ''
+
+              return (
               <li
                 key={block.key}
-                className={`timeline-row timeline-row-${block.kind} ${block.status === 'completed' ? 'timeline-row-done' : ''}`}
+                className={`timeline-row timeline-row-${block.kind} ${stateClass} ${isCompleted ? 'timeline-row-done' : ''}`}
               >
                 <div className="timeline-row-time">{formatTimeRange(block.start, block.end)}</div>
                 <div className="timeline-row-body">
@@ -201,7 +226,8 @@ export default function ScheduleDetail() {
                   </button>
                 </div>
               </li>
-            ))}
+              )
+            })}
           </ul>
         )}
       </div>

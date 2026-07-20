@@ -71,3 +71,25 @@ export function combineDateAndTime(planDate, hhmm) {
 export function sortByStart(items, startKey = 'scheduled_start') {
   return [...items].sort((a, b) => new Date(a[startKey]) - new Date(b[startKey]))
 }
+
+/**
+ * "Now", represented using the same UTC-labeled-wall-clock convention as
+ * every stored timestamp (see the note at the top of this file). Comparing
+ * this against scheduled_start/scheduled_end lets the UI compute
+ * current/upcoming/missed states without a real per-user timezone.
+ */
+export function nowForScheduleComparison() {
+  const d = new Date()
+  return new Date(
+    Date.UTC(
+      d.getFullYear(),
+      d.getMonth(),
+      d.getDate(),
+      d.getHours(),
+      d.getMinutes(),
+      d.getSeconds(),
+      d.getMilliseconds(),
+    ),
+  )
+}
+

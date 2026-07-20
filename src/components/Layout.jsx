@@ -19,6 +19,12 @@ export default function Layout() {
             <span className="brand-name">AssistantAI</span>
           </Link>
           <div className="d-flex align-items-center gap-3 ms-auto">
+            <NavLink
+              to="/calendar"
+              className={({ isActive }) => `nav-link-app ${isActive ? 'active' : ''}`}
+            >
+              Calendar
+            </NavLink>
             <NavLink to="/plan/new" className="btn btn-primary btn-sm">
               + New Plan
             </NavLink>

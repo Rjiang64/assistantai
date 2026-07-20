@@ -107,6 +107,48 @@ export async function fetchRecentPlans(limit = 7) {
 }
 
 // ---------------------------------------------------------------------------
+// Calendar page — plans + task completion counts across a date range.
+// ---------------------------------------------------------------------------
+
+/**
+ * All daily_plans with plan_date between startDate and endDate (inclusive),
+ * both "YYYY-MM-DD" strings. Used by the Calendar page's month grid.
+ */
+export async function fetchPlansInRange(startDate, endDate) {
+  const { data, error } = await supabase
+    .from('daily_plans')
+    .select('*')
+    .gte('plan_date', startDate)
+    .lte('plan_date', endDate)
+    .order('plan_date', { ascending: true })
+  if (error) throw error
+  return data ?? []
+}
+
+/**
+ * { [daily_plan_id]: { total, completed } } for the given plan ids, so the
+ * Calendar grid can show a completion count per day without loading every
+ * task's full detail.
+ */
+export async function fetchTaskCountsForPlans(planIds) {
+  if (!planIds || planIds.length === 0) return {}
+
+  const { data, error } = await supabase
+    .from('tasks')
+    .select('daily_plan_id, status')
+    .in('daily_plan_id', planIds)
+  if (error) throw error
+
+  const counts = {}
+  for (const t of data ?? []) {
+    counts[t.daily_plan_id] ??= { total: 0, completed: 0 }
+    counts[t.daily_plan_id].total += 1
+    if (t.status === 'completed') counts[t.daily_plan_id].completed += 1
+  }
+  return counts
+}
+
+// ---------------------------------------------------------------------------
 // Merge tasks + calendar events into one sorted timeline for rendering.
 // ---------------------------------------------------------------------------
 

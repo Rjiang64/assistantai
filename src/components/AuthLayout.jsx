@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import logo from '../assets/logo.jpeg'
 
 // Split-screen auth wrapper used by Login and Signup.
 //
@@ -21,7 +22,16 @@ export default function AuthLayout({ activeTab, title, subtitle, children }) {
         <div className="auth-image-overlay" />
         <div className="auth-image-content">
           <div className="auth-image-brand">
-            <span className="brand-mark">A</span>
+            {logoFailed ? (
+              <span className="brand-mark brand-mark-letter">A</span>
+            ) : (
+              <img
+                src={logo}
+                alt="AssistantAI"
+                className="brand-mark brand-mark-img"
+                onError={() => setLogoFailed(true)}
+              />
+            )}
             <span>AssistantAI</span>
           </div>
           <div className="auth-image-hero">
@@ -41,11 +51,14 @@ export default function AuthLayout({ activeTab, title, subtitle, children }) {
         <div className="auth-form-inner">
           <Link to="/" className="auth-form-brand">
             {logoFailed ? (
-              <span className="brand-mark">A</span>
+              <span className="brand-mark brand-mark-letter">A</span>
             ) : (
-              <span className="brand-mark" onError={() => setLogoFailed(true)}>
-                A
-              </span>
+              <img
+                src={logo}
+                alt="AssistantAI"
+                className="brand-mark brand-mark-img"
+                onError={() => setLogoFailed(true)}
+              />
             )}
             <span>AssistantAI</span>
           </Link>

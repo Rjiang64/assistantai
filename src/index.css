@@ -247,15 +247,26 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   width: 28px;
   height: 28px;
-  background: linear-gradient(135deg, var(--primary-light), var(--primary));
-  color: var(--surface);
   border-radius: 8px;
   font-weight: 700;
   font-size: 0.9rem;
   letter-spacing: -0.02em;
+  overflow: hidden;
+}
+.brand-mark-letter {
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  color: var(--surface);
   box-shadow: 0 1px 3px rgba(var(--primary-rgb), 0.35);
+}
+.brand-mark-img {
+  background: var(--surface);
+  box-shadow: 0 1px 3px rgba(var(--primary-rgb), 0.35);
+  padding: 4px;
+  object-fit: contain;
+  display: block;
 }
 .nav-link-app {
   color: var(--text-secondary);

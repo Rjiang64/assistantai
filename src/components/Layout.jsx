@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import logo from '../assets/logo.jpeg'
 
 export default function Layout() {
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
+  const [logoOk, setLogoOk] = useState(true)
 
   async function handleSignOut() {
     await signOut()
@@ -15,7 +18,16 @@ export default function Layout() {
       <nav className="app-navbar navbar">
         <div className="container d-flex align-items-center">
           <Link to="/" className="navbar-brand d-flex align-items-center gap-2 mb-0">
-            <span className="brand-mark">A</span>
+            {logoOk ? (
+              <img
+                src={logo}
+                alt="AssistantAI"
+                className="brand-mark brand-mark-img"
+                onError={() => setLogoOk(false)}
+              />
+            ) : (
+              <span className="brand-mark brand-mark-letter">A</span>
+            )}
             <span className="brand-name">AssistantAI</span>
           </Link>
           <div className="d-flex align-items-center gap-3 ms-auto">

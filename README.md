@@ -17,6 +17,8 @@ becomes a full, conflict-checked timeline — class, gym, the assignment,
 groceries, study time, lunch, work — in one shot, with a note on why it was
 ordered that way.
 
+**Live demo:** https://assistantai-sooty.vercel.app
+
 ## Tech stack
 
 - React + Vite, React Router

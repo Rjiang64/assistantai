@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import AuthLayout from '../components/AuthLayout.jsx'
 
@@ -11,6 +11,7 @@ export default function Signup() {
   const [error, setError] = useState(null)
   const [submitting, setSubmitting] = useState(false)
   const [confirmSent, setConfirmSent] = useState(false)
+  const [alreadyRegistered, setAlreadyRegistered] = useState(false)
   const navigate = useNavigate()
 
   if (session) return <Navigate to="/" replace />
@@ -36,13 +37,37 @@ export default function Signup() {
       return
     }
 
-    // If email confirmation is required, Supabase returns a user with no
-    // session yet. Otherwise the user is signed in immediately.
+    // Supabase intentionally does not return an error for "email already
+    // registered" (prevents attackers from probing which emails exist).
+    // Instead it returns a user object with an empty identities array and
+    // no session. Detect that case and tell the truth instead of showing
+    // a misleading "check your email" screen.
+    const isExistingAccount = Array.isArray(data?.user?.identities) && data.user.identities.length === 0
+
     if (data?.session) {
+      // Email confirmation is off (or not required) — signed in immediately.
       navigate('/')
+    } else if (isExistingAccount) {
+      setAlreadyRegistered(true)
     } else {
+      // A genuinely new account, and email confirmation is required.
       setConfirmSent(true)
     }
+  }
+
+  if (alreadyRegistered) {
+    return (
+      <AuthLayout
+        activeTab="signup"
+        title="Account already exists"
+        subtitle="That email is already registered."
+      >
+        <div className="alert alert-info small mb-0">
+          An account with this email already exists. <Link to="/login">Sign in instead</Link>, or use
+          "Forgot password" on the sign-in page if you don't remember your password.
+        </div>
+      </AuthLayout>
+    )
   }
 
   if (confirmSent) {

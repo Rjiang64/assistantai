@@ -1,57 +1,56 @@
 /* AssistantAI — custom styles on top of Bootstrap.
    Bootstrap itself is imported in src/main.jsx.
 
-   Single source of truth for the color system — every rule below
-   references one of the CSS variables in :root. Bootstrap's semantic
-   colors (success/warning/info) are intentionally left alone; only
-   "danger" is remapped to the brand red so destructive actions read
-   as on-brand rather than a generic Bootstrap red. */
+   Color system: a light, vibrant palette (indigo primary, coral accent,
+   amber highlight, rose danger) — chosen to feel energetic and modern
+   without going dark/corporate, appropriate for a personal AI assistant
+   people open first thing every morning. Every rule below references a
+   CSS variable in :root. Bootstrap's success/warning/info stay default;
+   only "primary" and "danger" are remapped. */
 
 :root {
   /* ---------- Brand palette ---------- */
-  --navy: #003049;
-  --navy-dark: #001f30;
-  --navy-light: #12466a;
-  --red: #d62828;
-  --red-dark: #b31f1f;
-  --orange: #f77f00;
-  --orange-dark: #d66d00;
-  --gold: #fcbf49;
-  --gold-dark: #e8a92b;
-  --cream: #eae2b7;
+  --primary: #6d5df6;
+  --primary-dark: #5646e0;
+  --primary-light: #9b8cff;
+  --accent: #ff6f4c;
+  --accent-dark: #e85a38;
+  --highlight: #ffc93c;
+  --highlight-dark: #f0ae12;
+  --success-accent: #22c55e;
+  --success-accent-dark: #17a34a;
+  --danger: #ff5470;
+  --danger-dark: #e63e5c;
 
-  --navy-rgb: 0, 48, 73;
-  --red-rgb: 214, 40, 40;
-  --orange-rgb: 247, 127, 0;
-  --gold-rgb: 252, 191, 73;
-  --cream-rgb: 234, 226, 183;
+  --primary-rgb: 109, 93, 246;
+  --accent-rgb: 255, 111, 76;
+  --highlight-rgb: 255, 201, 60;
+  --success-accent-rgb: 34, 197, 94;
+  --danger-rgb: 255, 84, 112;
 
   /* ---------- Text hierarchy ---------- */
-  --text-heading: var(--navy);
-  --text-primary: #16232c;
-  --text-secondary: #52697a;
-  --text-muted: #93a5b0;
+  --text-heading: #211f45;
+  --text-primary: #2c2a4a;
+  --text-secondary: #6b6883;
+  --text-muted: #a3a0be;
 
   /* ---------- Surfaces ---------- */
-  /* Kept light and neutral (not literal cream) so the app reads as a
-     calm, professional SaaS tool rather than a colorful dashboard.
-     Cream is reserved for small, deliberate accents (see below). */
-  --background: #f5f6f8;
+  --background: #fafaff;
   --surface: #ffffff;
-  --surface-subtle: #f1f3f5;
-  --surface-cream: #faf6e8;
+  --surface-subtle: #f4f2ff;
+  --surface-warm: #fff7e8;
 
   /* ---------- Borders ---------- */
-  --border: #e4e7eb;
-  --border-strong: #ccd3d9;
+  --border: #e9e7f7;
+  --border-strong: #d3cfef;
 
   /* ---------- Shape + elevation ---------- */
   --radius-sm: 0.5rem;
   --radius-md: 0.85rem;
   --radius-lg: 1.1rem;
-  --shadow-xs: 0 1px 2px rgba(var(--navy-rgb), 0.05);
-  --shadow-sm: 0 2px 8px rgba(var(--navy-rgb), 0.07);
-  --shadow-md: 0 8px 24px rgba(var(--navy-rgb), 0.1);
+  --shadow-xs: 0 1px 2px rgba(109, 93, 246, 0.06);
+  --shadow-sm: 0 2px 10px rgba(109, 93, 246, 0.09);
+  --shadow-md: 0 10px 28px rgba(109, 93, 246, 0.14);
 }
 
 /* ---------------------------------------------------------------
@@ -64,13 +63,13 @@
    explicitly further down.
    --------------------------------------------------------------- */
 :root {
-  --bs-primary: var(--navy);
-  --bs-primary-rgb: var(--navy-rgb);
-  --bs-link-color: var(--navy);
-  --bs-link-color-rgb: var(--navy-rgb);
-  --bs-link-hover-color: var(--navy-dark);
-  --bs-danger: var(--red);
-  --bs-danger-rgb: var(--red-rgb);
+  --bs-primary: var(--primary);
+  --bs-primary-rgb: var(--primary-rgb);
+  --bs-link-color: var(--primary);
+  --bs-link-color-rgb: var(--primary-rgb);
+  --bs-link-hover-color: var(--primary-dark);
+  --bs-danger: var(--danger);
+  --bs-danger-rgb: var(--danger-rgb);
   --bs-body-font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -82,6 +81,11 @@ body,
 
 body {
   background-color: var(--background);
+  background-image:
+    radial-gradient(620px circle at 6% -8%, rgba(var(--primary-rgb), 0.10), transparent 55%),
+    radial-gradient(520px circle at 100% 0%, rgba(var(--accent-rgb), 0.08), transparent 55%),
+    radial-gradient(480px circle at 15% 100%, rgba(var(--highlight-rgb), 0.06), transparent 60%);
+  background-attachment: fixed;
   color: var(--text-primary);
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -107,52 +111,52 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-  background-color: var(--navy);
-  border-color: var(--navy);
+  background-color: var(--primary);
+  border-color: var(--primary);
 }
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
-  background-color: var(--navy-dark) !important;
-  border-color: var(--navy-dark) !important;
+  background-color: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
 }
 .btn-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(var(--navy-rgb), 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb), 0.25);
 }
 .btn-primary:disabled {
-  background-color: var(--navy);
-  border-color: var(--navy);
+  background-color: var(--primary);
+  border-color: var(--primary);
   opacity: 0.6;
 }
 
 .btn-outline-primary {
-  color: var(--navy);
-  border-color: var(--navy);
+  color: var(--primary);
+  border-color: var(--primary);
 }
 .btn-outline-primary:hover,
 .btn-outline-primary:focus,
 .btn-outline-primary:active {
-  background-color: var(--navy) !important;
-  border-color: var(--navy) !important;
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
   color: #fff !important;
 }
 .btn-outline-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(var(--navy-rgb), 0.2);
+  box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb), 0.2);
 }
 
 .btn-outline-danger {
-  color: var(--red);
-  border-color: var(--red);
+  color: var(--danger-dark);
+  border-color: var(--danger);
 }
 .btn-outline-danger:hover,
 .btn-outline-danger:focus,
 .btn-outline-danger:active {
-  background-color: var(--red) !important;
-  border-color: var(--red) !important;
+  background-color: var(--danger) !important;
+  border-color: var(--danger) !important;
   color: #fff !important;
 }
 .btn-outline-danger:focus {
-  box-shadow: 0 0 0 0.2rem rgba(var(--red-rgb), 0.2);
+  box-shadow: 0 0 0 0.2rem rgba(var(--danger-rgb), 0.2);
 }
 
 .btn-outline-secondary {
@@ -162,16 +166,16 @@ h1, h2, h3, h4, h5, h6 {
 .btn-outline-secondary:hover,
 .btn-outline-secondary:focus,
 .btn-outline-secondary:active {
-  background-color: var(--navy) !important;
-  border-color: var(--navy) !important;
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
   color: #fff !important;
 }
 
 .btn-link {
-  color: var(--navy);
+  color: var(--primary);
 }
 .btn-link:hover {
-  color: var(--navy-dark);
+  color: var(--primary-dark);
 }
 
 .form-control,
@@ -181,15 +185,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 .form-control:focus,
 .form-select:focus {
-  border-color: var(--navy-light);
-  box-shadow: 0 0 0 0.2rem rgba(var(--navy-rgb), 0.15);
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb), 0.15);
 }
 
 a {
-  color: var(--navy);
+  color: var(--primary);
 }
 a:hover {
-  color: var(--navy-dark);
+  color: var(--primary-dark);
 }
 
 .progress {
@@ -198,7 +202,7 @@ a:hover {
   overflow: hidden;
 }
 .progress-bar {
-  background-color: var(--gold);
+  background: linear-gradient(90deg, var(--highlight), var(--accent));
   border-radius: 999px;
 }
 
@@ -206,9 +210,9 @@ a:hover {
   border-radius: var(--radius-sm);
 }
 .alert-danger {
-  --bs-alert-color: #7a1616;
-  --bs-alert-bg: #fbe9e9;
-  --bs-alert-border-color: #f3c6c6;
+  --bs-alert-color: #99283f;
+  --bs-alert-bg: #ffe9ee;
+  --bs-alert-border-color: #ffc9d4;
 }
 
 /* ============================================================
@@ -227,7 +231,7 @@ a:hover {
 .app-navbar {
   background-color: var(--surface);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 0 rgba(var(--navy-rgb), 0.02);
+  box-shadow: 0 1px 0 rgba(var(--primary-rgb), 0.03);
   padding: 1.1rem 0;
 }
 .app-navbar .navbar-brand {
@@ -245,13 +249,13 @@ a:hover {
   justify-content: center;
   width: 28px;
   height: 28px;
-  background: linear-gradient(135deg, var(--navy-light), var(--navy));
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
   color: var(--surface);
   border-radius: 8px;
   font-weight: 700;
   font-size: 0.9rem;
   letter-spacing: -0.02em;
-  box-shadow: 0 1px 3px rgba(var(--navy-rgb), 0.3);
+  box-shadow: 0 1px 3px rgba(var(--primary-rgb), 0.35);
 }
 .nav-link-app {
   color: var(--text-secondary);
@@ -267,8 +271,8 @@ a:hover {
   text-decoration: none;
 }
 .nav-link-app.active {
-  color: var(--navy);
-  border-bottom-color: var(--gold);
+  color: var(--primary);
+  border-bottom-color: var(--highlight);
 }
 .app-navbar .user-menu {
   position: relative;
@@ -325,13 +329,13 @@ a:hover {
   flex: 0 0 65%;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(160deg, var(--navy-dark), var(--navy) 55%, var(--navy-light));
+  background: linear-gradient(155deg, var(--primary-dark), var(--primary) 55%, var(--accent));
   color: #fff;
 }
 .auth-image-overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 14, 32, 0.15);
+  background-color: rgba(20, 15, 45, 0.12);
 }
 .auth-image-content {
   position: relative;
@@ -348,7 +352,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  color: #eaf0f5;
+  color: #f6f4ff;
   font-weight: 600;
   font-size: 1.4rem;
   letter-spacing: -0.01em;
@@ -374,12 +378,12 @@ a:hover {
 .auth-image-description {
   font-size: 1.05rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.92);
   margin: 0;
 }
 .auth-image-footer {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .auth-form-panel {
@@ -500,7 +504,7 @@ a:hover {
 
 /* ============================================================
    Mic button (Create Plan + Dashboard quick capture)
-   States: idle = navy, listening = orange pulse.
+   States: idle = indigo, listening = coral pulse.
    ============================================================ */
 
 .mic-panel {
@@ -514,20 +518,20 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--navy-light), var(--navy));
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
   color: #fff;
-  box-shadow: 0 4px 16px rgba(var(--navy-rgb), 0.35);
+  box-shadow: 0 4px 16px rgba(var(--primary-rgb), 0.35);
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
 }
 .mic-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(var(--navy-rgb), 0.4);
+  box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
 }
 .mic-button.listening {
   animation: mic-pulse 1.4s ease-out infinite;
-  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-  box-shadow: 0 4px 16px rgba(var(--orange-rgb), 0.4);
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.4);
 }
 .mic-button-sm {
   width: 56px;
@@ -535,13 +539,13 @@ a:hover {
 }
 @keyframes mic-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(var(--orange-rgb), 0.45);
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.45);
   }
   70% {
-    box-shadow: 0 0 0 18px rgba(var(--orange-rgb), 0);
+    box-shadow: 0 0 0 18px rgba(var(--accent-rgb), 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(var(--orange-rgb), 0);
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0);
   }
 }
 .mic-status {
@@ -556,13 +560,13 @@ a:hover {
   justify-content: center;
 }
 .analyzing-state .spinner-border {
-  color: var(--gold-dark);
+  color: var(--highlight-dark);
 }
 
 /* ============================================================
    Timeline (compact preview on Dashboard, full on Schedule Detail)
-   Row states: current = orange, completed = muted green,
-   missed = red, selected = gold outline, upcoming = default.
+   Row states: current = coral, completed = emerald, missed = rose,
+   selected = amber outline, upcoming = default.
    ============================================================ */
 
 .timeline-compact-row {
@@ -636,49 +640,49 @@ a:hover {
   gap: 0.4rem;
 }
 .timeline-row-event .timeline-row-title {
-  color: var(--navy-light);
+  color: var(--primary-dark);
 }
 
 /* Currently-happening block */
 .timeline-row-current {
-  border-left-color: var(--orange);
-  background-color: rgba(var(--orange-rgb), 0.06);
+  border-left-color: var(--accent);
+  background-color: rgba(var(--accent-rgb), 0.07);
 }
 .timeline-row-current .timeline-row-time {
-  color: var(--orange-dark);
+  color: var(--accent-dark);
   font-weight: 600;
 }
 
-/* Completed block — muted green, keeps Bootstrap's success hue */
+/* Completed block */
 .timeline-row-completed {
-  border-left-color: #2f9e5c;
-  background-color: rgba(47, 158, 92, 0.06);
+  border-left-color: var(--success-accent);
+  background-color: rgba(var(--success-accent-rgb), 0.07);
 }
 
 /* Past due, not completed */
 .timeline-row-missed {
-  border-left-color: var(--red);
-  background-color: rgba(var(--red-rgb), 0.05);
+  border-left-color: var(--danger);
+  background-color: rgba(var(--danger-rgb), 0.06);
 }
 .timeline-row-missed .timeline-row-time {
-  color: var(--red);
+  color: var(--danger-dark);
 }
 
 /* Currently open in the edit modal */
 .timeline-row-selected {
-  border-left-color: var(--gold-dark);
-  background-color: rgba(var(--gold-rgb), 0.12);
-  box-shadow: inset 0 0 0 1px rgba(var(--gold-rgb), 0.5);
+  border-left-color: var(--highlight-dark);
+  background-color: rgba(var(--highlight-rgb), 0.14);
+  box-shadow: inset 0 0 0 1px rgba(var(--highlight-rgb), 0.55);
 }
 
 /* ============================================================
-   Explanation card — AI reasoning gets the gold "AI suggestion"
-   highlight called for in the brand spec.
+   Explanation card — AI reasoning gets the amber "AI suggestion"
+   highlight.
    ============================================================ */
 
 .explanation-card {
-  background-color: rgba(var(--gold-rgb), 0.16);
-  border: 1px solid rgba(var(--gold-rgb), 0.55);
+  background-color: rgba(var(--highlight-rgb), 0.18);
+  border: 1px solid rgba(var(--highlight-rgb), 0.55);
   border-radius: var(--radius-md);
   padding: 1rem 1.25rem;
   color: var(--text-primary);
@@ -715,8 +719,8 @@ a:hover {
   transition: border-color 0.15s, background-color 0.15s;
 }
 .task-complete-btn:hover {
-  border-color: var(--navy);
-  background-color: rgba(var(--navy-rgb), 0.06);
+  border-color: var(--primary);
+  background-color: rgba(var(--primary-rgb), 0.07);
 }
 
 /* ============================================================
@@ -736,8 +740,8 @@ a:hover {
   letter-spacing: 0.04em;
 }
 .priority-high {
-  background-color: #fbe4e4;
-  color: #8a1f1f;
+  background-color: #ffe1e6;
+  color: #9c1f39;
 }
 .priority-medium {
   background-color: #fef3c7;
@@ -759,8 +763,8 @@ a:hover {
   color: var(--text-secondary);
 }
 .badge-kind-event {
-  background-color: rgba(var(--navy-rgb), 0.08);
-  color: var(--navy);
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary-dark);
 }
 
 /* ============================================================
@@ -771,7 +775,7 @@ a:hover {
 .modal-backdrop-custom {
   position: fixed;
   inset: 0;
-  background-color: rgba(var(--navy-rgb), 0.45);
+  background-color: rgba(24, 20, 48, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -818,7 +822,7 @@ a:hover {
 }
 .calendar-nav-btn:hover {
   background-color: var(--surface-subtle);
-  color: var(--navy);
+  color: var(--primary);
 }
 
 .calendar-card {
@@ -876,7 +880,7 @@ a:hover {
   transition: background-color 0.15s, color 0.15s;
 }
 .calendar-day-today .calendar-day-number {
-  background-color: var(--navy);
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
   color: #fff;
   font-weight: 600;
 }
@@ -888,21 +892,21 @@ a:hover {
   background-color: var(--surface-subtle);
 }
 .calendar-day-has-plan:hover:not(:disabled) .calendar-day-number {
-  background-color: rgba(var(--navy-rgb), 0.1);
-  color: var(--navy);
+  background-color: rgba(var(--primary-rgb), 0.12);
+  color: var(--primary-dark);
 }
 .calendar-day-has-plan.calendar-day-today:hover:not(:disabled) .calendar-day-number {
-  background-color: var(--navy-dark);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: #fff;
 }
 .calendar-day-dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background-color: var(--gold-dark);
+  background-color: var(--accent);
 }
 .calendar-day-today .calendar-day-dot {
-  background-color: var(--orange);
+  background-color: var(--highlight-dark);
 }
 .calendar-day:disabled {
   cursor: default;

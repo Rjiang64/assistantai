@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.jpeg'
+import landingImage from '../assets/landing.png'
 
 // Split-screen auth wrapper used by Login and Signup.
 //
@@ -18,7 +19,11 @@ export default function AuthLayout({ activeTab, title, subtitle, children }) {
 
   return (
     <div className="auth-split">
-      <aside className="auth-image-panel" aria-hidden="true">
+      <aside
+        className="auth-image-panel"
+        style={{ backgroundImage: `url(${landingImage})` }}
+        aria-hidden="true"
+      >
         <div className="auth-image-overlay" />
         <div className="auth-image-content">
           <div className="auth-image-brand">
@@ -35,12 +40,10 @@ export default function AuthLayout({ activeTab, title, subtitle, children }) {
             <span>AssistantAI</span>
           </div>
           <div className="auth-image-hero">
-            <h2 className="auth-image-title">Your day, organized before you ask.</h2>
+            <h2 className="auth-image-title">Plan less, do more.</h2>
             <p className="auth-image-description">
-              Speak your brain dump. AssistantAI extracts every task and fixed
-              event, resolves conflicts, and builds an optimized schedule —
-              like handing your morning to an executive assistant instead of
-              a chat window.
+              Speak your mind and AssistantAI extracts every task and fixed
+              event, resolves conflicts, and builds an optimized schedule.
             </p>
           </div>
           <div className="auth-image-footer">© 2026 AssistantAI</div>

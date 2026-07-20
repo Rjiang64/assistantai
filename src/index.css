@@ -340,13 +340,22 @@ a:hover {
   flex: 0 0 65%;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(155deg, var(--primary-dark), var(--primary) 55%, var(--accent));
+  background-color: var(--primary-dark);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #fff;
 }
 .auth-image-overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(20, 15, 45, 0.12);
+  background: linear-gradient(
+    180deg,
+    rgba(16, 12, 38, 0.68) 0%,
+    rgba(16, 12, 38, 0.32) 38%,
+    rgba(16, 12, 38, 0.42) 60%,
+    rgba(16, 12, 38, 0.78) 100%
+  );
 }
 .auth-image-content {
   position: relative;

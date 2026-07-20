@@ -13,22 +13,20 @@ function toISODate(date) {
 }
 
 /**
- * Builds the full set of grid cells for a month view: every day in the
- * month, plus the leading/trailing days from adjacent months needed to
- * complete full weeks (Sun-Sat), so the grid is always a clean rectangle.
+ * Builds only the real days of the given month (no adjacent-month filler),
+ * plus how many leading blank cells the grid needs so day 1 lines up under
+ * the correct weekday column.
  */
-function buildMonthGrid(year, month) {
+function buildMonthDays(year, month) {
   const firstOfMonth = new Date(year, month, 1)
-  const startOffset = firstOfMonth.getDay() // 0 = Sunday
-  const gridStart = new Date(year, month, 1 - startOffset)
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const leadingBlanks = firstOfMonth.getDay() // 0 = Sunday
 
-  const cells = []
-  for (let i = 0; i < 42; i += 1) {
-    const date = new Date(gridStart)
-    date.setDate(gridStart.getDate() + i)
-    cells.push(date)
+  const days = []
+  for (let d = 1; d <= daysInMonth; d += 1) {
+    days.push(new Date(year, month, d))
   }
-  return cells
+  return { leadingBlanks, days }
 }
 
 export default function CalendarPage() {
@@ -40,7 +38,7 @@ export default function CalendarPage() {
   const [error, setError] = useState(null)
   const [plansByDate, setPlansByDate] = useState({})
 
-  const grid = useMemo(() => buildMonthGrid(viewYear, viewMonth), [viewYear, viewMonth])
+  const { leadingBlanks, days } = useMemo(() => buildMonthDays(viewYear, viewMonth), [viewYear, viewMonth])
   const monthLabel = useMemo(
     () => new Date(viewYear, viewMonth, 1).toLocaleDateString(undefined, { month: 'long', year: 'numeric' }),
     [viewYear, viewMonth],
@@ -50,8 +48,8 @@ export default function CalendarPage() {
     setLoading(true)
     setError(null)
     try {
-      const rangeStart = toISODate(grid[0])
-      const rangeEnd = toISODate(grid[grid.length - 1])
+      const rangeStart = toISODate(days[0])
+      const rangeEnd = toISODate(days[days.length - 1])
       const plans = await fetchPlansInRange(rangeStart, rangeEnd)
       const counts = await fetchTaskCountsForPlans(plans.map((p) => p.id))
 
@@ -68,7 +66,7 @@ export default function CalendarPage() {
     } finally {
       setLoading(false)
     }
-  }, [grid])
+  }, [days])
 
   useEffect(() => {
     load()
@@ -104,14 +102,14 @@ export default function CalendarPage() {
           <h1 className="h3 mb-1">Calendar</h1>
           <p className="text-secondary mb-0">Browse past and current daily plans.</p>
         </div>
-        <div className="d-flex align-items-center gap-2">
-          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={goToPrevMonth} aria-label="Previous month">
+        <div className="calendar-nav-group d-flex align-items-center gap-2">
+          <button type="button" className="calendar-nav-btn" onClick={goToPrevMonth} aria-label="Previous month">
             &larr;
           </button>
           <button type="button" className="btn btn-outline-secondary btn-sm" onClick={goToToday}>
             Today
           </button>
-          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={goToNextMonth} aria-label="Next month">
+          <button type="button" className="calendar-nav-btn" onClick={goToNextMonth} aria-label="Next month">
             &rarr;
           </button>
         </div>
@@ -136,16 +134,18 @@ export default function CalendarPage() {
               </div>
             ))}
 
-            {grid.map((date) => {
+            {Array.from({ length: leadingBlanks }).map((_, i) => (
+              <div key={`blank-${i}`} className="calendar-day-blank" aria-hidden="true" />
+            ))}
+
+            {days.map((date) => {
               const iso = toISODate(date)
-              const isCurrentMonth = date.getMonth() === viewMonth
               const isToday = iso === todayISO
               const entry = plansByDate[iso]
               const hasPlan = Boolean(entry)
 
               const classes = [
                 'calendar-day',
-                !isCurrentMonth ? 'calendar-day-outside' : '',
                 isToday ? 'calendar-day-today' : '',
                 hasPlan ? 'calendar-day-has-plan' : '',
               ]
@@ -159,12 +159,11 @@ export default function CalendarPage() {
                   className={classes}
                   onClick={() => handleDayClick(entry)}
                   disabled={!hasPlan}
+                  title={hasPlan ? `${entry.counts.completed} of ${entry.counts.total} tasks done` : undefined}
                 >
                   <span className="calendar-day-number">{date.getDate()}</span>
                   {hasPlan && (
-                    <span className="calendar-day-count">
-                      {entry.counts.completed}/{entry.counts.total} done
-                    </span>
+                    <span className="calendar-day-dot" aria-hidden="true" />
                   )}
                 </button>
               )

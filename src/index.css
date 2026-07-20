@@ -36,14 +36,22 @@
   /* Kept light and neutral (not literal cream) so the app reads as a
      calm, professional SaaS tool rather than a colorful dashboard.
      Cream is reserved for small, deliberate accents (see below). */
-  --background: #f6f7f8;
+  --background: #f5f6f8;
   --surface: #ffffff;
   --surface-subtle: #f1f3f5;
   --surface-cream: #faf6e8;
 
   /* ---------- Borders ---------- */
-  --border: #e1e5e9;
-  --border-strong: #c7ced4;
+  --border: #e4e7eb;
+  --border-strong: #ccd3d9;
+
+  /* ---------- Shape + elevation ---------- */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.85rem;
+  --radius-lg: 1.1rem;
+  --shadow-xs: 0 1px 2px rgba(var(--navy-rgb), 0.05);
+  --shadow-sm: 0 2px 8px rgba(var(--navy-rgb), 0.07);
+  --shadow-md: 0 8px 24px rgba(var(--navy-rgb), 0.1);
 }
 
 /* ---------------------------------------------------------------
@@ -63,6 +71,7 @@
   --bs-link-hover-color: var(--navy-dark);
   --bs-danger: var(--red);
   --bs-danger-rgb: var(--red-rgb);
+  --bs-body-font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
 html,
@@ -76,11 +85,26 @@ body {
   color: var(--text-primary);
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
+  font-size: 0.95rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-heading);
+  letter-spacing: -0.02em;
 }
 
 /* ============================================================
    Bootstrap overrides
    ============================================================ */
+
+.btn {
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.btn:active {
+  transform: translateY(0.5px);
+}
 
 .btn-primary {
   background-color: var(--navy);
@@ -150,6 +174,11 @@ body {
   color: var(--navy-dark);
 }
 
+.form-control,
+.form-select {
+  border-radius: var(--radius-sm);
+  border-color: var(--border);
+}
 .form-control:focus,
 .form-select:focus {
   border-color: var(--navy-light);
@@ -165,11 +194,17 @@ a:hover {
 
 .progress {
   background-color: var(--surface-subtle);
+  border-radius: 999px;
+  overflow: hidden;
 }
 .progress-bar {
   background-color: var(--gold);
+  border-radius: 999px;
 }
 
+.alert {
+  border-radius: var(--radius-sm);
+}
 .alert-danger {
   --bs-alert-color: #7a1616;
   --bs-alert-bg: #fbe9e9;
@@ -192,7 +227,8 @@ a:hover {
 .app-navbar {
   background-color: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 1rem 0;
+  box-shadow: 0 1px 0 rgba(var(--navy-rgb), 0.02);
+  padding: 1.1rem 0;
 }
 .app-navbar .navbar-brand {
   color: var(--text-primary);
@@ -211,7 +247,7 @@ a:hover {
   height: 28px;
   background: linear-gradient(135deg, var(--navy-light), var(--navy));
   color: var(--surface);
-  border-radius: 7px;
+  border-radius: 8px;
   font-weight: 700;
   font-size: 0.9rem;
   letter-spacing: -0.02em;
@@ -268,7 +304,7 @@ a:hover {
 .app-footer {
   background-color: var(--surface);
   border-top: 1px solid var(--border);
-  padding: 0.75rem 0;
+  padding: 0.85rem 0;
   text-align: center;
   font-size: 0.75rem;
   color: var(--text-muted);
@@ -322,7 +358,7 @@ a:hover {
   width: 40px;
   height: 40px;
   font-size: 1.15rem;
-  border-radius: 9px;
+  border-radius: 10px;
 }
 .auth-image-hero {
   max-width: 38rem;
@@ -389,7 +425,7 @@ a:hover {
   gap: 0.25rem;
   background-color: var(--surface-subtle);
   padding: 0.25rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-sm);
   margin: 1.5rem 0 1.25rem;
 }
 .auth-tab {
@@ -410,7 +446,7 @@ a:hover {
 .auth-tab.active {
   background-color: var(--surface);
   color: var(--text-heading);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-xs);
 }
 .auth-form-inner .form-label {
   font-size: 0.7rem;
@@ -453,9 +489,13 @@ a:hover {
 .dashboard-card {
   background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 0.6rem;
-  padding: 1.25rem;
-  box-shadow: 0 1px 2px rgba(var(--navy-rgb), 0.05);
+  border-radius: var(--radius-md);
+  padding: 1.4rem;
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.dashboard-card:hover {
+  box-shadow: var(--shadow-sm);
 }
 
 /* ============================================================
@@ -529,7 +569,7 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.5rem 0;
+  padding: 0.55rem 0;
   border-bottom: 1px solid var(--surface-subtle);
   font-size: 0.875rem;
 }
@@ -552,8 +592,9 @@ a:hover {
 .timeline-card {
   background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 0.6rem;
-  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  padding: 1.4rem;
+  box-shadow: var(--shadow-xs);
 }
 .timeline-list {
   position: relative;
@@ -562,11 +603,11 @@ a:hover {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 0.9rem 0.75rem;
-  margin: 0 -0.75rem;
+  padding: 0.95rem 0.85rem;
+  margin: 0 -0.85rem;
   border-bottom: 1px solid var(--surface-subtle);
   border-left: 3px solid transparent;
-  border-radius: 0.35rem;
+  border-radius: var(--radius-sm);
   transition: background-color 0.15s, border-color 0.15s;
 }
 .timeline-row:last-child {
@@ -638,7 +679,7 @@ a:hover {
 .explanation-card {
   background-color: rgba(var(--gold-rgb), 0.16);
   border: 1px solid rgba(var(--gold-rgb), 0.55);
-  border-radius: 0.6rem;
+  border-radius: var(--radius-md);
   padding: 1rem 1.25rem;
   color: var(--text-primary);
   font-size: 0.925rem;
@@ -681,17 +722,18 @@ a:hover {
 /* ============================================================
    Badges — priority + block kind/category
    Priority badges intentionally NOT brand-tinted (communicate state,
-   reuse Bootstrap's semantic danger/warning/success hues).
+   reuse Bootstrap's semantic danger/warning/success hues). Pill-shaped
+   for a softer, more modern read.
    ============================================================ */
 
 .priority-badge {
   display: inline-block;
-  padding: 0.15rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.7rem;
-  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 .priority-high {
   background-color: #fbe4e4;
@@ -708,10 +750,10 @@ a:hover {
 
 .badge-kind {
   display: inline-block;
-  padding: 0.15rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.7rem;
-  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
   text-transform: capitalize;
   background-color: var(--surface-subtle);
   color: var(--text-secondary);
@@ -741,87 +783,129 @@ a:hover {
   max-width: 480px;
 }
 .modal-dialog-custom .modal-content {
-  border-radius: 0.6rem;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
 }
 
 /* ============================================================
-   Calendar page — month grid of past/current daily plans.
+   Calendar page — clean month grid of past/current daily plans.
+   Only the real days of the selected month are rendered (no
+   adjacent-month filler); leading blanks keep weekday columns
+   aligned. Styled flat (Apple Calendar-like) rather than boxed
+   cells, for a lighter, less cluttered look.
    ============================================================ */
+
+.calendar-nav-group {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem;
+}
+.calendar-nav-btn {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 0.4rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+.calendar-nav-btn:hover {
+  background-color: var(--surface-subtle);
+  color: var(--navy);
+}
 
 .calendar-card {
   background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 0.6rem;
-  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-xs);
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 0.4rem;
+  gap: 0.15rem;
 }
 
 .calendar-weekday {
   text-align: center;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   color: var(--text-muted);
-  padding-bottom: 0.4rem;
+  padding-bottom: 0.6rem;
+}
+
+.calendar-day,
+.calendar-day-blank {
+  aspect-ratio: 1 / 1;
+  min-height: 3.75rem;
 }
 
 .calendar-day {
-  aspect-ratio: 1 / 1;
-  min-height: 4.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
-  background-color: var(--surface-subtle);
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
+  gap: 0.3rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
   color: var(--text-secondary);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   cursor: default;
-  transition: border-color 0.15s, background-color 0.15s, transform 0.1s;
+  transition: background-color 0.15s;
 }
 .calendar-day-number {
-  font-weight: 600;
-}
-.calendar-day-outside {
-  opacity: 0.4;
-}
-.calendar-day-today {
-  border-color: var(--gold-dark);
-  background-color: rgba(var(--gold-rgb), 0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  font-weight: 500;
+  transition: background-color 0.15s, color 0.15s;
 }
 .calendar-day-today .calendar-day-number {
-  color: var(--navy);
+  background-color: var(--navy);
+  color: #fff;
+  font-weight: 600;
 }
 .calendar-day-has-plan {
   cursor: pointer;
-  background-color: var(--surface);
-  border-color: var(--border-strong);
+  color: var(--text-primary);
 }
-.calendar-day-has-plan:hover {
-  border-color: var(--navy);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(var(--navy-rgb), 0.12);
+.calendar-day-has-plan:hover:not(:disabled) {
+  background-color: var(--surface-subtle);
 }
-.calendar-day-has-plan.calendar-day-today {
-  background-color: rgba(var(--gold-rgb), 0.22);
-  border-color: var(--gold-dark);
+.calendar-day-has-plan:hover:not(:disabled) .calendar-day-number {
+  background-color: rgba(var(--navy-rgb), 0.1);
+  color: var(--navy);
 }
-.calendar-day-count {
-  font-size: 0.68rem;
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
+.calendar-day-has-plan.calendar-day-today:hover:not(:disabled) .calendar-day-number {
+  background-color: var(--navy-dark);
+  color: #fff;
+}
+.calendar-day-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--gold-dark);
+}
+.calendar-day-today .calendar-day-dot {
+  background-color: var(--orange);
 }
 .calendar-day:disabled {
-  opacity: 0.55;
+  cursor: default;
 }
 
 /* ============================================================

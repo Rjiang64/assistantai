@@ -30,6 +30,54 @@ function getInitialPhase() {
   return window.sessionStorage.getItem(REVEAL_KEY) === 'true' ? 'form' : 'intro'
 }
 
+function WaveformIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+      <path
+        d="M4 12v2M8 8v8M12 5v14M16 8v8M20 12v2"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+function ScheduleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+      <rect x="4" y="5" width="16" height="15" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M4 9.5h16M8 3v3.5M16 3v3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M8 13.5h4M8 16.5h7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function SparkIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+      <path
+        d="M12 4.5c.7 2.6 1.6 3.9 4.5 4.5-2.9.6-3.8 1.9-4.5 4.5-.7-2.6-1.6-3.9-4.5-4.5 2.9-.6 3.8-1.9 4.5-4.5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18.5 14c.4 1.5.9 2.1 2.5 2.5-1.6.4-2.1 1-2.5 2.5-.4-1.5-.9-2.1-2.5-2.5 1.6-.4 2.1-1 2.5-2.5Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+const FEATURES = [
+  { icon: WaveformIcon, label: 'Speak or type your whole day at once' },
+  { icon: ScheduleIcon, label: 'Get a conflict-free schedule in seconds' },
+  { icon: SparkIcon, label: 'See the reasoning behind every block' },
+]
+
 export default function AuthLayout({ activeTab, title, subtitle, children }) {
   const [logoFailed, setLogoFailed] = useState(false)
   const [phase, setPhase] = useState(getInitialPhase)
@@ -75,11 +123,22 @@ export default function AuthLayout({ activeTab, title, subtitle, children }) {
             <div
               className={`auth-intro ${phase === 'leaving' ? 'auth-intro-leaving' : ''}`}
             >
+              <span className="auth-intro-eyebrow">AI Executive Assistant</span>
               <h2 className="auth-intro-title">Plan less, do more.</h2>
               <p className="auth-intro-description">
                 Speak your mind and AssistantAI extracts every task and fixed
                 event, resolves conflicts, and builds an optimized schedule.
               </p>
+              <ul className="auth-intro-features">
+                {FEATURES.map(({ icon: Icon, label }) => (
+                  <li key={label} className="auth-intro-feature">
+                    <span className="auth-intro-feature-icon">
+                      <Icon />
+                    </span>
+                    {label}
+                  </li>
+                ))}
+              </ul>
               <button
                 type="button"
                 className="auth-reveal-btn"
